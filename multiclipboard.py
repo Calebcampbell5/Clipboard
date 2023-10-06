@@ -2,16 +2,16 @@ import sys
 import clipboard
 import json
 
-
+# Saved data variable
 SAVED_DATA = "clipboard.json"
 
 
-# Save Data
+# Write json file function
 def save_data(filepath, data):
     with open(filepath, "w") as f:
         json.dump(data, f)
 
-# Load Json Data
+# Read json file function
 def load_data(filepath):
     try:
         with open(filepath, "r") as f:
@@ -20,19 +20,19 @@ def load_data(filepath):
     except:
         return {}
 
-
+# Setting 2 command line arguments 
 if len(sys.argv) == 2:
     command = sys.argv[1]
     data = load_data(SAVED_DATA)
 
-# Save command
+# Save command adding new key's to dict
     if command == "save":
         key = input("Enter a key: ")
         data[key] = clipboard.paste()
         save_data(SAVED_DATA, data)
         print("Data saved!")
 
-# Load command
+# Load command checks for valid key and saves value to user's clipboard
     elif command == "load":
         key = input("Enter a key: ")
         if key in data:
@@ -40,7 +40,7 @@ if len(sys.argv) == 2:
             print("Data copied to clipboard")
         else:
             print("Key does not exist.")
-
+# Delete command delete's key's and values from json file
     elif command == "del":
         key = input("Enter a key to remove: ")
         if key in data:
@@ -49,7 +49,7 @@ if len(sys.argv) == 2:
             print("Key removed from saved data")
         else:
             print("Unknown key!")
-    
+    # List command print's out saved key's and values
     elif command == "list":
         print(data)
     else:
